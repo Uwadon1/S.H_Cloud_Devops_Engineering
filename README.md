@@ -16,7 +16,7 @@ This repository is designed to be informative for both experienced professionals
 
 Key Areas Covered
 
-Project 1: Implementation of the LAMP web stack on AWS - Successfully deployed a LAMP (Linux, Apache, MySQL, PHP) stack on an AWS EC2 instance, enabling a robust environment for hosting web applications.
+Project 1: [Implementation of the LAMP web stack on AWS - Successfully deployed a LAMP (Linux, Apache, MySQL, PHP) stack on an AWS EC2 instance, enabling a robust environment for hosting web applications](https://github.com/Uwadon1/S.H_Cloud_Devops_Engineering/tree/main/LAMP_STACK).
 
 Project 2: LEMP web stack on AWS - Implemented a LEMP (Linux, Nginx, MySQL, PHP) stack on an AWS EC2 instance, optimizing performance for high-traffic websites.
 
