@@ -1,14 +1,21 @@
 S.H DevOps/Cloud Engineering
 
+---
+
 My DevOps & Cloud Engineering Journey as a 'self-taught'
 
 This repository serves as a central hub for my learning journey in DevOps and Cloud Engineering in 2025. It's a comprehensive collection of documentation, code samples, best practices, and curated resources that cover various aspects of these fields.
+
+---
 
 What You'll Find Here
 
 This repository is designed to be informative for both experienced professionals and those just getting started. It delves into topics ranging from setting up efficient development environments to deploying robust and scalable cloud-based solutions.
 
+---
+
 Key Areas Covered
+
 Project 1: Implementation of the LAMP web stack on AWS - Successfully deployed a LAMP (Linux, Apache, MySQL, PHP) stack on an AWS EC2 instance, enabling a robust environment for hosting web applications.
 
 Project 2: LEMP web stack on AWS - Implemented a LEMP (Linux, Nginx, MySQL, PHP) stack on an AWS EC2 instance, optimizing performance for high-traffic websites.
