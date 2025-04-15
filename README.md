@@ -18,7 +18,7 @@ Key Areas Covered
 
 Project 1: [Implementation of the LAMP web stack on AWS](https://github.com/Uwadon1/S.H_Cloud_Devops_Engineering/tree/main/LAMP_STACK) - Successfully deployed a LAMP (Linux, Apache, MySQL, PHP) stack on an AWS EC2 instance, enabling a robust environment for hosting web applications.
 
-Project 2: LEMP web stack on AWS - Implemented a LEMP (Linux, Nginx, MySQL, PHP) stack on an AWS EC2 instance, optimizing performance for high-traffic websites.
+Project 2: [LEMP web stack on AWS](https://github.com/Uwadon1/S.H_Cloud_Devops_Engineering/tree/main/LEMP_STACK) - Implemented a LEMP (Linux, Nginx, MySQL, PHP) stack on an AWS EC2 instance, optimizing performance for high-traffic websites.
 
 Project 3: Implementation of MERN web stack on AWS - Deployed a TODO web application using the MERN (MongoDB, Express.js, React, Node.js) stack on AWS EC2, providing a full-stack JavaScript solution.
 
