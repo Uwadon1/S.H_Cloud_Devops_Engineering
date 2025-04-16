@@ -345,7 +345,7 @@ The command below was used:
 ```
 sudo apache2ctl configtest
 ```
-![Check syntax error](./syntax-confirm.png)
+![Check syntax error](.img/syntax-confirm.png)
 
 __7.__ __Reload apache for changes to take effect.__
 ```
