@@ -134,7 +134,7 @@ __5.__ __Test with the public IP address if the Apache HTTP server can respond t
 http://35.93.146.45:80
 
 ```
-![Apache Default Page](./img/default-page-browser.png)
+![Apache Default Page](./img/apache-browser.png)
 This shows that the web server is correctly installed and it is accessible through the firewall.
 
 
@@ -151,9 +151,9 @@ Actions → Instance Settings → Modify Metadata Options.
 Set Metadata version to V1 and V2.
 Change the __IMDSv2__ from __Required__ to __Optional__.
 
-![To Obtain the IP](./img/obtain-ip.png)
+![To Obtain the IP](./img/abstract-ip.png)
 
-The command was run,and the public IP address was displayed. Thing is AWS now defaults to IMDSv2 (Instance Metadata Service Version 2), which requires tokens.
+The command was run, and the public IP address was displayed. Thing is AWS now defaults to IMDSv2 (Instance Metadata Service Version 2), which requires tokens.
 
 ```
 TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
@@ -194,7 +194,7 @@ Here, the user's password was defined as "Admin007$"
 ```
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Admin007$';
 ```
-![User Password](./img/mysql-login.png)
+![User Password](./img/msql-login.png)
 Exit the MySQL shell
 ```
 exit
@@ -345,7 +345,7 @@ The command below was used:
 ```
 sudo apache2ctl configtest
 ```
-![Check syntax error](./img/check-config-syntac.png)
+![Check syntax error](./syntax-confirm.png)
 
 __7.__ __Reload apache for changes to take effect.__
 ```
@@ -362,7 +362,7 @@ Or
 ```sudo bash -c "echo 'Hello LAMP from hostname' \$(curl -H \"X-aws-ec2-metadata-token: $TOKEN\" -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' \$(curl -H \"X-aws-ec2-metadata-token: $TOKEN\" -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectlamp/index.html"
 ```
 
-![Root dir content](./img/fill-root-dir.png)
+![Root dir content](./img/apache-before.png)
 
 
 __9.__ __Open the website on a browser using the public IP address.__
@@ -370,13 +370,13 @@ __9.__ __Open the website on a browser using the public IP address.__
 http://35.93.146.45:80
 
 ```
-![URL public IP](./img/site-url-ip.png)
+![URL public IP](./img/apachelocal-after.png)
 
 __10.__ Open the website with public dns name (port is optional)
 ```
 http://<public-DNS-name>:80
 ```
-![URL public DNS](./img/site-url-pub-dns.png)
+![URL public DNS](./img/apachedns-after.png)
 
 This file can be left in place as a temporary landing page for the application until an index.php file is set up to replace it. Once this is done, the index.html file should be renamed or removed from the document root as it will take precedence over index.php file by default.
 
@@ -403,7 +403,7 @@ sudo vim /etc/apache2/mods-enabled/dir.conf
 ```
 NB: We want to prioritize index.php over index.html
 
-![Change file list order](./img/changevim.png)
+![Change file list order](./img/changevim-php.png)
 
 
 __2.__ __Reload Apache__
