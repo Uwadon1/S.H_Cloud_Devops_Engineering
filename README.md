@@ -20,9 +20,9 @@ Project 1: [Implementation of the LAMP web stack on AWS](https://github.com/Uwad
 
 Project 2: [LEMP web stack on AWS](https://github.com/Uwadon1/S.H_Cloud_Devops_Engineering/tree/main/LEMP_STACK) - Implemented a LEMP (Linux, Nginx, MySQL, PHP) stack on an AWS EC2 instance, optimizing performance for high-traffic websites.
 
-Project 3: Implementation of MERN web stack on AWS - Deployed a TODO web application using the MERN (MongoDB, Express.js, React, Node.js) stack on AWS EC2, providing a full-stack JavaScript solution.
+Project 3: [Implementation of MERN web stack on AWS](https://github.com/Uwadon1/S.H_Cloud_Devops_Engineering/tree/main/LEMP_STACK) - Deployed a TODO web application using the MERN (MongoDB, Express.js, React, Node.js) stack on AWS EC2, providing a full-stack JavaScript solution.
 
-Project 4: MEAN stack deployment to Ubuntu in AWS - Deployed a Book Register Web Form using the MEAN (MongoDB, Express.js, Angular, Node.js) stack on AWS EC2.
+Project 4: [MEAN stack deployment to Ubuntu in AWS](https://github.com/Uwadon1/S.H_Cloud_Devops_Engineering/tree/main/MERN_STACK) - Deployed a Book Register Web Form using the MEAN (MongoDB, Express.js, Angular, Node.js) stack on AWS EC2.
 
 Project 5: Client-Server Architecture with MySQL - Deployed a scalable Client Server Architecture on AWS EC2 instance, ensuring efficient client-server communication and data management.
 
