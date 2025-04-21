@@ -256,11 +256,11 @@ server {
 }
 ```
 
-![Nginx config](./img/nginx-config.png)
+![Nginx config](./img/sudo-nano.png)
 
-### Here’s what each directives and location blocks does:
+### Here’s what each directive and location block does:
 
-- __listen__ - Defines what port nginx listens on. In this case it will listen on port 80, the default port for HTTP.
+- __listen__ - Defines what port nginx listens on. In this case, it will listen on port 80, the default port for HTTP.
 
 - __root__ - Defines the document root where the files served by this website are stored.
 
