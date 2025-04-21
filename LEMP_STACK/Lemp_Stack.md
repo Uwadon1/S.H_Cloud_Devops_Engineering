@@ -69,7 +69,7 @@ Run a sudo apt install nginx -y to install nginx
 ```
 sudo apt install nginx -y
 ```
-![Instal Nginx](./img/nginx-install.png)
+![Instal Nginx](./img/install-nginx.png)
 
 
 __3.__ __Spin up Nginx and verify that nginx is active and running__
