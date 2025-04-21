@@ -140,7 +140,7 @@ We have succeeded in setting up our nginx webserver and ensured its accessible o
 ```
 sudo apt install mysql-server
 ```
-![Install MySQL](./img/mysq-installl.png)
+![Install MySQL](./img/mysq-install.png)
 
 __2.__ __Log in to mysql console__
 ```
@@ -189,9 +189,9 @@ exit
 
 __1.__ __Install php__
 
-Install php-fpm (PHP fastCGI process manager) and tell nginx to pass PHP requests to this software for processing. Also, install php-mysql, a php module that allows PHP to communicate with MySQL-based databases. Core PHP packages will automatically be installed as dependencies.
+Install php-fpm (PHP fastCGI process manager) and tell Nginx to pass PHP requests to this software for processing. Also, install php-mysql, a php module that allows PHP to communicate with MySQL-based databases. Core PHP packages will automatically be installed as dependencies.
 
-We use php to dynamically display contents of our webpage to users who make requests to the webserver.
+We use php to dynamically display content of our webpage to users who make requests to the web server.
 php-fpm : which stands for PHP FastCGI Process Manager is a web tool used for speeding up the performance of a website by handling tremendous amounts of load simultaneously.
 
 
@@ -222,7 +222,7 @@ __2.__ __Assign the directory ownership with $USER which will reference the curr
 ```
 sudo chown -R $USER:$USER /var/www/projectlemp
 ```
-![Web root dir](./img/root-dir-changed.png)
+![Web root dir](./img/root-dir.png)
 
 
 
@@ -482,7 +482,7 @@ http://35.95.39.71/todo_list.php
 
 __Access this page on the browser by using the domain name followed by /todo_list.php__
 
-![Site with dns](./img/php-site-dns.png)
+![Site with dns](./img/php-site-dns2.png)
 
 
 ### Troubleshoot
