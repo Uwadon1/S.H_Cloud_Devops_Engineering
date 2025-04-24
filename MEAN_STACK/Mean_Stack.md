@@ -1,4 +1,8 @@
-# Introduction
+## MEAN WEB STACK IMPLEMENTATION IN AWS
+
+
+### Introduction
+
 
 The MEAN stack is a popular JavaScript stack used for building web applications. It stands for MongoDB, Express.js, AngularJS (or Angular), and Node.js. Here's a brief overview of each component:
 
@@ -13,37 +17,55 @@ __Node.js:__ Node.js is a JavaScript runtime built on Chrome's V8 JavaScript eng
 
 ## Step 0: Prerequisites
 
-__1.__ EC2 Instance of t3.small type and Ubuntu 22.04 LTS (HVM) was lunched in the us-east-1 region using the AWS console.
+__1.__ Launched an Ubuntu EC2 Instance named “Mean_Stack_Server” with AMI of 22.04 LTS (HVM) in the us-west-2 region using the AWS console.
 
-![Lunch Instance](./images/create-ec2.png)
-![Lunch Instance](./images/ec2-detail.png)
+![Create Server Name](./img/server-name.png)
 
-__2.__ Attached SSH key named __my-ec2-key__ to access the instance on port 22
+__2.__ Gave it the instance type of t3.small. 
+
+The choice of the instance type was based on the following:
+
+- __Memory:__ The t3.small instance offers more memory than the t2.micro, which is advantageous for applications that require more memory to operate efficiently.
+
+- __Burst Capability:__ While both instances offer burstable CPU performance, the t3 instances have a more flexible burst model, allowing for more sustained performance during burst periods. This is important for workloads that require consistent performance over longer periods.
+
+- __Performance:__ While both instances offer burstable performance, the t3.small typically provides better baseline performance compared to the t2.micro. This might be necessary for applications that require a bit more processing power.
+
+
+Created SSH key pair named __mean_stack__ to access the instance on port 22.  The default VPC and Subnet were used for the networking configuration.
+
+]![Instance Type](./img/t3-small.png)
+
 
 __3.__ The security group was configured with the following inbound rules:
 
-- Allow traffic on port 80 (HTTP) with source from anywhere on the internet.
-
+- Allow traffic on port 22 (SSH) with source from any IP address. 
 - Allow traffic on port 443 (HTTPS) with source from anywhere on the internet.
+- Allow traffic on port 80 (HTTP) with source from anywhere on the internet. (All these would be set by default, later we would go into the security group to set the remaining 2 inbound rules manually.)
+*- Allow traffic on port 3300 (Custom TCP) with source from anywhere.
+*- Allow traffic on port 27017 (Custom TCP) with source from anywhere.
 
-- Allow traffic on port 22 (SSH) with source from any IP address. This is opened by default.
 
-- Allow traffic on port 3300 (Custom TCP) with source from anywhere.
+We will leave the storage at default; 8gb gp3 volume storage. Then we hit the launch instance button.
 
-![Security Rules](./images/security-rule.png)
+![Security Rules](./img/security-group1.png)
 
-__4.__ The private ssh key permission was changed for the private key file and then used to connect to the instance by running
-```bash
-chmod 400 my-ec2-key.pem
+![Security Rules](./img/security-group2.png)
+
+
+__4.__ First, we need to move the keypair file from the download folder into the .ssh folder; 
+ cp ~/Downloads/mean_stack.pem ~/.ssh/
+
+The private ssh key that got downloaded has now been moved, permission was changed for the private key file and then used to connect to the instance by running the following commands;
+
 ```
-```bash
-ssh -i "my-ec2-key.pem" ubuntu@54.81.119.2
+chmod 400 ~/.ssh/mean_stack.pem
 ```
-Where __username=ubuntu__ and __public ip address=54.81.119.2__
 
-![Connect to instance](./images/ssh.png)
-
-
+```
+ssh -i ~/.ssh/mean_stack.pem ubuntu@52.32.32.193
+```
+Where __username=ubuntu__ and __public ip address=52.32.32.193__
 ## Step 1 - Install Nodejs
 
 Node.js is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.js is used in this tutorial to set up the Express routes and AngularJS controllers.
@@ -53,27 +75,27 @@ __1.__ __Update and Upgrade ubuntu__
 ```bash
 sudo apt update && sudo apt upgrade -y
 ```
-![Update ubuntu](./images/update-upgrade.png)
+![Update ubuntu](./img/update-upgrade.png)
 
 __2.__ __Add certificates__
 
 ```bash
 sudo apt -y install curl dirmngr apt-transport-https lsb-release ca-certificates
 ```
-![Ade cert.](./images/add-cert.png)
+![Add cert.](./img/add-cert.png)
 
 
 ```bash
 curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 ```
-![Add cert.](./images/add-cert2.png)
+![Add cert.](./img/add-cert2.png)
 
 __.3__ __Install NodeJS__
 
 ```bash
 sudo apt-get install -y nodejs
 ```
-![Install nodejs](./images/install-nodejs.png)
+![Install nodejs](./img/install-nodejs.png)
 
 
 ## Step 2 - Install MongoDB
@@ -91,7 +113,7 @@ __2.__ __Add the MongoDB repository__
 ```bash
 echo "deb [ signed-by=/usr/share/keyrings/mongodb-archive-keyring.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 ```
-![Mongo public key](./images/db-gpg-and-repo.png)
+![Mongo public key](./img/db-gpg-and-repo.png)
 
 
 __3.__ __Update the package database and install MongoDB__
@@ -99,12 +121,12 @@ __3.__ __Update the package database and install MongoDB__
 ```bash
 sudo apt-get update
 ```
-![Update server](./images/update-the-server.png)
+![Update server](./img/update-server.png)
 
 ```bash
 sudo apt-get install -y mongodb-org
 ```
-![Install mongodb](./images/install-mongodb.png)
+![Install mongodb](./img/install-mongodb.png)
 
 
 __4.__ __Start and enable MongoDB__
@@ -118,7 +140,7 @@ sudo systemctl enable mongod
 ```bash
 sudo systemctl status mongod
 ```
-![Start Mongodb](./images/start-n-enable-db.png)
+![Start Mongodb](./img/start-enabledb.png)
 
 __5.__ __Install body-parser package__
 
@@ -127,7 +149,7 @@ __body-parser__ package is needed to help process JSON files passed in requests 
 ```bash
 sudo npm install body-parser
 ```
-![Install body-parser](./images/install-body-parser.png)
+![Install body parser](./img/install-body-parser.png)
 
 __6.__ __Create the project root folder named ‘Books’__
 
@@ -139,7 +161,7 @@ Initialize the root folder
 ```bash
 npm init
 ```
-![init folder](./images/init-proj-dir.png)
+![init folder](./img/init-proj-dir.png)
 
 __Add file named server.js to Books folder__
 ```bash
@@ -155,9 +177,11 @@ const path = require('path'); // To handle static file serving
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/test')
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
+
+
 
 // Middleware
 app.use(bodyParser.json());
@@ -172,7 +196,7 @@ app.listen(app.get('port'), () => {
   console.log('Server up: http://localhost:' + app.get('port'));
 });
 ```
-![Server.js](./images/serverjs.png)
+![Server.js](./img/serverjs.png)
 
 
 ## Step 3 - Install Express and set up routes to the server
@@ -185,7 +209,7 @@ __1.__ __Install express and mongoose__
 ```bash
 sudo npm install express mongoose
 ```
-![Install express](./images/install-express-mongoose.png)
+![Install express](./img/express-mongoose.png)
 
 __2.__ __In Books folder, create a folder named ‘apps’__
 
@@ -280,7 +304,7 @@ module.exports = function(app) {
   });
 };
 ```
-![Routes](./images/routejs.png)
+![Routes](./img/routesjs.png)
 
 __3.__ __In the ‘apps’ folder, create a folder named models__
 
@@ -292,7 +316,7 @@ __In models, create a file named book.js__
 ```bash
 vim book.js
 ```
-![](./images/cd-route-model.png)
+![Create Models file and change directory](./img/cd-routes.png)
 
 Copy and paste the code below into book.js
 
@@ -308,7 +332,7 @@ const bookSchema = new mongoose.Schema({
 
 module.exports = mongoose.model('Book', bookSchema);
 ```
-![books](./images/bookjs.png)
+![books](./img/bookjs.png)
 
 
 ## Step 4 - Access the routes with AngularJS
@@ -407,7 +431,7 @@ app.controller('myCtrl', function($scope, $http) {
   };
 });
 ```
-![Script.js](./images/scriptjs.png)
+![Script.js](./img/scriptjs.png)
 
 
 __2.__ __In ‘public’ folder, create a file named index.html__
@@ -473,7 +497,7 @@ Copy and paste the code below into index.html file
 </body>
 </html>
 ```
-![HTML](./images/indexhtml.png)
+![HTML](./img/index-html.png)
 
 __3.__ __Change the directory back up to ‘Books’ and start the server__
 
@@ -483,24 +507,26 @@ cd ..
 ```bash
 node server.js
 ```
-![Run server](./images/run-server.png)
+![Run server](./img/run-server.png)
 
 The server is now up and running, Connection to it is via port 3300. A separate Putty or SSH console to test what curl command returns locally can be launched.
 
 The Book Register web application can now be accessed from the internet with a browser using the Public IP address or Public DNS name.
 
-![Book register](./images/bookreg.png)
+![Book register](./img/book-reg.png)
 
 Add more books to the register
 
-![Book register](./images/book-reg-webapp.png)
+![Book register](./img/book-reg-webapp.png)
 
-Get the json view
+Get the JSON view
 
-![Book register](./images/book-json.png)
+![Book register](./img/book-json.png)
 
 ## Conclusion
 
 The MEAN stack—comprising MongoDB, Express.js, AngularJS (or Angular), and Node.js—provides a powerful and cohesive set of technologies for building modern web applications.
 
 Together, these technologies allow developers to use JavaScript throughout the entire development process, from front-end to back-end, promoting a unified and streamlined development workflow.
+
+
