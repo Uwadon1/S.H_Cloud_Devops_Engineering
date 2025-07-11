@@ -136,11 +136,11 @@ The command was run,and the public IP address was displayed. Thing is AWS now de
 
 __1.__ __Install a relational database (RDB)__
 
-We have succeeded in setting up our nginx webserver and ensured its accessible over the internet. Next is to install mySQL which is a relational database management server to help store data and manage content on our web application.
+We have succeeded in setting up our nginx web server and ensured it's accessible over the internet. Next is to install MySQL which is a relational database management server to help store data and manage content on our web application.
 ```
 sudo apt install mysql-server
 ```
-![Install MySQL](./img/mysq-install.png)
+![Install MySQL](./img/mysql-install.png)
 
 __2.__ __Log in to mysql console__
 ```
