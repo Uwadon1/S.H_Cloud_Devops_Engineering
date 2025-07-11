@@ -35,7 +35,7 @@ The choice of the instance type was based on the following:
 
 Created SSH key pair named __mern_stack__ to access the instance on port 22.  The default VPC and Subnet were used for the networking configuration.
 
-]![Instance Type](./img/t2-micro.png)
+![Instance Type](./img/t3-small.png)
 
 
 
@@ -49,9 +49,9 @@ __3.__ The security group was configured with the following inbound rules:
 
 We will leave the storage at default; 8gb gp3 volume storage. Then we hit the launch instance button.
 
-![Security Rules](./img/security-rule.png)
+![Security Rules](./img/security-rules.png)
 
-![Security Rules](./img/security-rule2.png)
+![Security Rules 2](./img/security-rules2.png)
 
 
 __4.__ First, we need to move the keypair file from the download folder into the .ssh folder; 
@@ -273,7 +273,7 @@ router.delete('/todos/:id', (req, res, next) => {
 
 module.exports = router;
 ```
-![Route](./img/vim-route.png)
+![Route](./img/vim-routes.png)
 
 
 ## Models
@@ -304,7 +304,7 @@ Open the file__
 ```bash
 mkdir models && cd models && touch todo.js
 ```
-![](./img/mkdir-models.png)
+![Create New Model Directory](./img/mkdir-models.png)
 
 Paste the code below into the file
 
@@ -377,7 +377,7 @@ router.delete('/todos/:id', (req, res, next) => {
 
 module.exports = router;
 ```
-![Router update](./img/update-route.png)
+![Router update](./img/update-routes.png)
 
 
 ## MongoDB Database
@@ -398,7 +398,7 @@ AWS cloud provider, in region Oregon (us-west-2) was selected.
 
 Access from anywhere to the MongoDB database was allowed (Not secure but it is ideal for testing).
 
-![Network access](./images/db-network-access.png)
+![Network access](./img/network-access.png)
 
 A __database__ named __todo_db__ and __collections__ named __todos__ was created.
 
@@ -514,20 +514,20 @@ Input the following:
     "action": "Complete the MERN_STACK project proposal"
 }
 
-![Post request](./img/post-req1.png)
+![Post request](./img/post-reg1.png)
 
 {
     "action": "Start the MERN_STACK project now!"
 }
 
-![Post request](./img/post-req2.png)
+![Post request 2](./img/post-reg2.png)
 
 
 {
     "action": "Prepare the Documentation!"
 }
 
-![Post request](./img/post-req3.png)
+![Post request 3](./img/post-reg3.png)
 
 
 {
@@ -535,12 +535,12 @@ Input the following:
 }
 
 
-![Post request](./img/post-req4.png)
+![Post request 4](./img/post-reg4.png)
 
 
 ### Check Database Collections
 
-![DB Collectioms](./img/db-collections.png)
+![DB Collections](./img/db-collections.png)
 
 
 ### Make a GET requests to the API
@@ -550,9 +550,9 @@ This request retrieves all existing records from our To-Do application (backend 
 ![Get request](./img/get-req1.png)
 
 
-### Create a DELETE requests to the API
+### Create a DELETE request to the API
 
-To delete any of the data we just insetted in the post endpoint, we need to copy any of the id number and paste on the delete function after the ip/todo url: 680212d996ebfef5fce6bc6a
+To delete any of the data we just inserted in the post endpoint, we need to copy any of the id number and paste on the delete function after the ip/todo url: 680212d996ebfef5fce6bc6a
 
 ![Delete request](./img/del-req.png)
 
@@ -605,7 +605,7 @@ npm install nodemon --save-dev
   "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\""
 }
 ```
-![Package.json](./img/packagejson-update.png)
+![Package.json](./img/packagejson.update.png)
 
 ### Configure Proxy In package.json
 
@@ -661,9 +661,9 @@ Move into the components directory
 ```bash
 cd components
 ```
-![Component](./img/create-component.png)
+![Component](./img/create-components.png)
 
-__3.__ __Inside the ‘components’ directory create three files “Input.js”, “ListTodo.js” and 
+__3.__ __Inside the ‘components’ directory, create three files “Input.js”, “ListTodo.js” and 
 
 “Todo.js”.__
 ```bash
@@ -732,7 +732,7 @@ __Install Axios__
 ```bash
 npm install axios
 ```
-![](./img/install-axios.png)
+![Install Axios](./img/install-axios.png)
 
 #### Go to components directory
 ```bash
@@ -1010,7 +1010,7 @@ __The client can now be viewed in the browser__
 
 __Add some todos via the browser .__
 
-![Todos](./img/add-todo.png)
+![Todos](./img/add-todos.png)
 
 __Check them on the MongoDB database__
 
