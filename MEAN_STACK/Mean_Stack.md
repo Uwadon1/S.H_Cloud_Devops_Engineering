@@ -332,7 +332,7 @@ const bookSchema = new mongoose.Schema({
 
 module.exports = mongoose.model('Book', bookSchema);
 ```
-![books](./img/bookjs.png)
+![books](./img/booksjs.png)
 
 
 ## Step 4 - Access the routes with AngularJS
