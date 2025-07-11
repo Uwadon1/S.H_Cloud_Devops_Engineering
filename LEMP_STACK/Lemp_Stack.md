@@ -45,7 +45,7 @@ Where __username=ubuntu__ and __public ip address=35.95.39.71__
 
 
 
-## Step 1 - Install nginx web server
+## Step 1 - Install Nginx web server
 
 __1.__ __Update and upgrade the server’s package index__
 
@@ -56,9 +56,9 @@ sudo apt update
 ![Update Packages](./img/apt-update.png)
 
 Run a sudo apt upgrade to upgrade the package
-```
-`sudo apt upgrade -y
-``
+
+`sudo apt upgrade -y`
+
 ![Upgrade Packages](./img/apt-upgrade.png)
 
 
@@ -69,10 +69,10 @@ Run a sudo apt install nginx -y to install nginx
 ```
 sudo apt install nginx -y
 ```
-![Instal Nginx](./img/install-nginx.png)
+![Install Nginx](./img/install-nginx.png)
 
 
-__3.__ __Spin up Nginx and verify that nginx is active and running__
+__3.__ __Spin up Nginx and verify that Nginx is active and running__
 
 Spin up the nginx server and ensure it automatically starts on system reboot by running the following commands
 
@@ -113,23 +113,22 @@ http://35.95.39.71:80
 This shows that the web server is correctly installed and it is accessible through the firewall.
 
 
-__6.__ __Another way to retrieve the public ip address rather than check the aws console__
+__6.__ __Another way to retrieve the public IP address rather than check the AWS console__
+
 ```
 TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254/latest/meta-data/public-ipv4
-
 ```
-![imds option](./img/abstract-ip.png)
+
+![Abstract IP address option](./img/obtain-ip.png)
 
 Or enable IMDSv1 in your instance settings:
 Go to EC2 Console → Instances → Select your instance.
 Actions → Instance Settings → Modify Metadata Options.
-Set Metadata version to V1 and V2.
+Set the Metadata version to V1 and V2.
 Change the __IMDSv2__ from __Required__ to __Optional__.
 
-The command was run,and the public IP address was displayed. Thing is AWS now defaults to IMDSv2 (Instance Metadata Service Version 2), which requires token.
-
-```
+The command was run, and the public IP address was displayed. The thing is AWS now defaults to IMDSv2 (Instance Metadata Service Version 2), which requires a token.
 
 
 ## Step 2 - Install MySQL
@@ -137,15 +136,12 @@ The command was run,and the public IP address was displayed. Thing is AWS now de
 __1.__ __Install a relational database (RDB)__
 
 We have succeeded in setting up our nginx web server and ensured it's accessible over the internet. Next is to install MySQL which is a relational database management server to help store data and manage content on our web application.
-```
-sudo apt install mysql-server
-```
+`sudo apt install mysql-server`
+
 ![Install MySQL](./img/mysql-install.png)
 
 __2.__ __Log in to mysql console__
-```
-sudo mysql
-```
+`sudo mysql`
 This connects to the MySQL server as the administrative database user __root__ inferred by the use of __sudo__ when running the command.
 
 ![MySQL console](./img/sudo-mysql.png)
@@ -154,54 +150,47 @@ __3.__ __Set a password for root user using mysql_native_password as default aut
 
 Here, the user's password was defined as "Admin007$"
 
-```
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Admin007$';
-```
+`ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Admin007$';`
+
 ![Root password](./img/root-password.png)
 
 Exit the MySQL shell
-```
-exit
-```
+
+`exit`
 
 __4.__ __Run an Interactive script to secure MySQL__
 
-The security script comes pre-installed with mysql. This script removes some insecure settings and locks down access to the database system.
-```
-sudo mysql_secure_installation
-```
+The security script comes pre-installed with MySQL. This script removes some insecure settings and locks down access to the database system.
+`sudo mysql_secure_installation`
+
 ![Change root password](./img/secure-mysql.png)
 
-__5.__ __After changing root user password, log in to MySQL console.__
+__5.__ __After changing the root user password, log in to the MySQL console.__
 
-A command prompt for password was noticed after running the command below.
-```
-sudo mysql -p
-```
+A command prompt for the password was noticed after running the command below.
+`sudo mysql -p`
+
 ![MySQL login with password](./img/mysql-console.png)
 
 Exit MySQL shell
-```
-exit
-```
+`exit`
 
 ## Step 3 - Install PHP
 
 __1.__ __Install php__
 
-Install php-fpm (PHP fastCGI process manager) and tell Nginx to pass PHP requests to this software for processing. Also, install php-mysql, a php module that allows PHP to communicate with MySQL-based databases. Core PHP packages will automatically be installed as dependencies.
+Install php-fpm (PHP fastCGI process manager) and tell Nginx to pass PHP requests to this software for processing. Also, install php-mysql, a PHP module that allows PHP to communicate with MySQL-based databases. Core PHP packages will automatically be installed as dependencies.
 
-We use php to dynamically display content of our webpage to users who make requests to the web server.
-php-fpm : which stands for PHP FastCGI Process Manager is a web tool used for speeding up the performance of a website by handling tremendous amounts of load simultaneously.
+We use PHP to dynamically display the content of our webpage to users who make requests to the web server.
+php-fpm : which stands for PHP FastCGI Process Manager, is a web tool used for speeding up the performance of a website by handling tremendous amounts of load simultaneously.
 
 
 The following were installed:
 - php-fpm (PHP fastCGI process manager)
 - php-mysql
 
-```
-sudo apt install php-fpm php-mysql -y
-```
+`sudo apt install php-fpm php-mysql -y`
+
 ![Install PHP](./img/install-php.png)
 
 
@@ -210,27 +199,24 @@ sudo apt install php-fpm php-mysql -y
 __1.__ __Create a root web directory for your_domain__
 
 To serve our web content on our web server, we create a directory for our project inside the /var/www/ directory.
-sudo mkdir /var/www/projectlemp Then we change permissions of the projectlemp directory to the current user system
+sudo mkdir /var/www/projectlemp Then, we changethe  permissions of the projectlemp directory to the current user system
 sudo chown -R $USER:$USER /var/www/projectlemp
 
 
-```
-sudo mkdir /var/www/projectlemp
-```
+`sudo mkdir /var/www/projectlemp`
+
 __2.__ __Assign the directory ownership with $USER which will reference the current system user__
 
-```
-sudo chown -R $USER:$USER /var/www/projectlemp
-```
+`sudo chown -R $USER:$USER /var/www/projectlemp`
+
 ![Web root dir](./img/root-dir.png)
 
 
 
 __3.__ __Create a new configuration file in Nginx’s “sites-available” directory__.
 
-```
-sudo nano /etc/nginx/sites-available/projectlemp
-```
+`sudo nano /etc/nginx/sites-available/projectlemp`
+
 Paste in the following bare-bones configuration:
 
 ```
@@ -276,36 +262,32 @@ server {
 
 __4.__ __Activate the configuration by linking to the config file from Nginx’s sites-enabled directory__
 
-```
-sudo ln -s /etc/nginx/sites-available/projectlemp /etc/nginx/sites-enabled/
-```
+`sudo ln -s /etc/nginx/sites-available/projectlemp /etc/nginx/sites-enabled/`
+
 ![Link config](./img/sys-link.png)
+
 This will tell Nginx to use this configuration when next it is reloaded.
 
 __5.__ __Test the configuration for syntax error__
 
-```
-sudo nginx -t
-```
+`sudo nginx -t`
+
 ![Test syntax](./img/test-syntax.png)
 
-__6.__ __Disable the default Nginx host that currently configured to listen on port 80__
+__6.__ __Disable the default Nginx host that is currently configured to listen on port 80__
 
-Currently our new server block has been created and configured but the default server block is the default block that comes with nginx install. To unlink it we run the command: sudo unlink /etc/sites-available/default.
-We then reload nginx for all configurations to take effect sudo reload nginx.
-Create an index.html file inside projectlemp directory and write in contents to be accessed over the internet. Paste public IP address on a browser to see content.
+Currently, our new server block has been created and configured, but the default server block is the default block that comes with nginx install. To unlink it, we run the command: sudo unlink /etc/sites-available/default.
+We then reload nginx for all configurations to take effect: sudo reload nginx.
+Create an index.html file inside projectlemp directory and write in contents to be accessed over the internet. Paste the public IP address on a browser to see the content.
 
-```
-sudo unlink /etc/nginx/sites-enabled/default
-```
+`sudo unlink /etc/nginx/sites-enabled/default`
 
 __7.__ __Reload Nginx to apply the changes__
-```
-sudo systemctl reload nginx
-```
+`sudo systemctl reload nginx`
+
 ![Reload nginx](./img/disable-reload.png)
 
-__8.__ __The new website is now active but the web root /var/www/projectlemp is still empty. Create an index.html file in this location so to test the virtual host work as expected.__
+__8.__ __The new website is now active, but the web root /var/www/projectlemp is still empty. Create an index.html file in this location so to test the virtual host works as expected.__
 
 ```
 sudo echo ‘Hello LEMP from hostname’ $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) ‘with public IP’ $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectlemp/index.html
@@ -327,19 +309,17 @@ PUBLIC_IP=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254
 ![Site content](./img/site-content.png)
 
 #### Open the website on a browser using IP address
-```
-http://35.95.39.71:80
-```
+`http://35.95.39.71:80`
+
 ![Site with ip-address](./img/site-ip.png)
 
-#### Open it with public dns name (port is optional)
-```
-http://<public-DNS-name>:80
-```
+#### Open it with public DNS name (port is optional)
+`http://<public-DNS-name>:80`
+
 ![Site with dns name](./img/site-dns.png)
 
 
-This file can be left in place as a temporary landing page for the application until an index.php file is set up to replace it. Once this is done, remove or rename the index.html file from the document root as it will take precedence over index.php file by default.
+This file can be left in place as a temporary landing page for the application until an index.php file is set up to replace it. Once this is done, remove or rename the index.html file from the document root, as it will take precedence over index.php file by default.
 
 The LEMP stack is now fully configured.
 At this point, the LEMP stack is completely installed and fully operational.
@@ -353,24 +333,19 @@ __1.__ __Create a test PHP file in the document root. Open a new file called inf
 
 Create an info.php file inside the /var/www/projectlemp directory.
 
-```
-sudo nano /var/www/projectlemp/info.php
-```
-Paste in the command below;:
+`sudo nano /var/www/projectlemp/info.php`
+Paste in the command below:
 ```
 <?php
 phpinfo();
 ```
 __2.__ __Access the page on the browser and attach /info.php__
-```
-http://18.209.18.61/info.php
-```
+`http://18.209.18.61/info.php`
+
 ![PHP page](./img/php-page.png)
 
 After checking the relevant information about the server through this page, It’s best to remove the file created as it contains sensitive information about the PHP environment and the ubuntu server. It can always be recreated if the information is needed later.
-```
-sudo rm /var/www/projectlemp/info.php
-```
+`sudo rm /var/www/projectlemp/info.php`
 
 ## Step 6 - Retrieve Data from MySQL database with PHP
 
@@ -379,14 +354,10 @@ sudo rm /var/www/projectlemp/info.php
 Create a database named todo_database and a user named todo_user
 
 __1.__ __First, connect to the MySQL console using the root account.__
-```
-sudo mysql -p
-```
+`sudo mysql -p`
 
 __2.__ __Create a new database__
-```
-CREATE DATABASE todo_database;
-```
+`CREATE DATABASE todo_database;`
 
 
 __3.__ __Create a new user and grant the user full privileges on the new database.__
@@ -396,9 +367,8 @@ CREATE USER 'todo_user'@'%' IDENTIFIED WITH mysql_native_password BY 'Admin123$'
 GRANT ALL ON todo_database.* TO 'todo_user'@'%';
 ```
 ![Create database](./img/console-createdb.png)
-```
-exit
-```
+
+`exit`
 __4.__ __Login to MySQL console with the user custom credentials and confirm that you have access to todo_database.__
 
 ```
@@ -406,13 +376,15 @@ mysql -u todo_user -p
 
 SHOW DATABASES;
 ```
+
 ![Show database](./img/show-db.png)
 
-The -p flag will prompt for password used when creating the example_user
+
+The -p flag will prompt for the password used when creating the example_user
 
 __5.__ __Create a test table named todo_list__.
 
-From MySQL console, run the following:
+From the MySQL console, run the following:
 ```
 CREATE TABLE todo_database.todo_list (
   item_id INT AUTO_INCREMENT,
@@ -430,26 +402,25 @@ INSERT INTO todo_database.todo_list (content) VALUES ("My third important item")
 
 INSERT INTO todo_database.todo_list (content) VALUES ("and this one more thing");
 ```
+
 ![Insert rows](./img/insert-rows.png)
 
 __7.__ __To confirm that the data was successfully saved to the table run:__
-```
-SELECT * FROM todo_database.todo_list;
-```
+`SELECT * FROM todo_database.todo_list;`
+
 ![Query table](./img/query-table.png)
-```
-exit
-```
+
+`exit`
 
 ### Create a PHP script that will connect to MySQL and query the content.
 
 __1.__ __Create a new PHP file in the custom web root directory__
-```
-sudo nano /var/www/projectlemp/todo_list.php
-```
-The PHP script connects to MySQL database and queries for the content of the todo_list table, displays the results in a list. If there’s a problem with the database connection, it will throw an exception.
+`sudo nano /var/www/projectlemp/todo_list.php`
+
+The PHP script connects to the MySQL database and queries the content of the todo_list table, displays the results in a list. If there’s a problem with the database connection, it will throw an exception.
 
 Copy the content below into the todo_list.php script.
+
 ```
 <?php
 $user = "todo_user";
@@ -474,9 +445,7 @@ try {
 
 __2.__ __Now access this page on the browser by using the domain name or public IP address followed by /todo_list.php__
 
-```
-http://35.95.39.71/todo_list.php
-```
+`http://35.95.39.71/todo_list.php`
 
 ![Site with IP](./img/php-site-ip.png)
 
@@ -487,7 +456,7 @@ __Access this page on the browser by using the domain name followed by /todo_lis
 
 ### Troubleshoot
 
-One of the major error i faced when implementing this project was after i adjusted my php file and wanted to view my ip address with the path /info.php. I got a 502 error, after much troubleshooting and back and forth, realized where the issue was from. I didnt take note of the php version that was installed, hence i didnt reference the exact version in my populating this file ‘/etc/nginx/sites-available/projectlemp’ so i kept getting502 error until i corrected this line ‘fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;’
+One of the major errors I faced when implementing this project was after I adjusted my PHP file and wanted to view my IP address with the path /info.php. I got a 502 error, after much troubleshooting and back and forth, realized where the issue was from. I didn't take note of the php version that was installed, hence I didn't reference the exact version in my populating this file ‘/etc/nginx/sites-available/projectlemp’, so I kept getting a 502 error until I corrected this line ‘fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;’
 
 ### Conclusion
 
