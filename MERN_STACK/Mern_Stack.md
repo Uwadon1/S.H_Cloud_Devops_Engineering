@@ -11,7 +11,7 @@ __Express.js:__ A lightweight web application framework for Node.js that simplif
 
 __React.js:__ A powerful Javascript library for building interactive user interfaces based on components.
 
-__Node.js:__ Node.js is an open-source, a Javascript cross-platform runtime environment for building fast and scalable server-side and networking applications.__
+__Node.js:__ Node.js is an open-source, a Javascript cross-platform runtime environment for building fast and scalable server-side and networking applications.
 
 __This guide provides a comprehensive overview of setting up and utilizing each component of the MERN stack, to develop robust web applications.__
 
@@ -92,10 +92,9 @@ sudo apt upgrade -y
 ![Upgrade Packages](./img/apt-upgrade.png)
 
 
+__2.__ __Get the location of Node.js software from ubuntu repositories.__
 
-__2.__ __Get the location of Node.js software from ubuntu repositories__.
-
-Next, will be to install Node.js, first we get the location of node.js from the Ubuntu repository using the following command. 
+Next, will be to install Node.js. First we get the location of Node.js from the Ubuntu repository using the following command. 
 
 ```bash
 curl fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
