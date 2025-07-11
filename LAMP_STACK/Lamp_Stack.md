@@ -77,13 +77,10 @@ __4.__ First, we need to move the keypair file from the download folder into the
 
 The private ssh key that got downloaded has now been moved, permission was changed for the private key file and then used to connect to the instance by running the following commands;
 
-```
-chmod 400 ~/.ssh/lamp_stack.pem
-```
+`chmod 400 ~/.ssh/lamp_stack.pem`
 
-```
-ssh -i ~/.ssh/lamp_stack.pem ubuntu@35.93.146.45
-```
+`ssh -i ~/.ssh/lamp_stack.pem ubuntu@35.93.146.45`
+
 Where __username=ubuntu__ and __public ip address=35.93.146.45__
 
 ![Connect to instance](./img/ssh-instance.png)
@@ -93,22 +90,23 @@ Where __username=ubuntu__ and __public ip address=35.93.146.45__
 ## Step 1 - Install Apache and Update the Firewall
 
 __1.__ __Update and upgrade list of packages in package manager__
-```
-sudo apt update
+
+`sudo apt update`
 
 ![Update Packages](./img/apt-update.png)
 
-sudo apt upgrade -y
-```
+`sudo apt upgrade -y`
+
 ![Upgrade Packages](./img/apt-upgrade.png)
 
 __2.__ __Run apache2 package installation__
-```
-sudo apt install apache2 -y
-```
+
+`sudo apt install apache2 -y`
+
 ![Install Apache](./img/apache-install.png)
 
-__3.__ __Enable and verify that apache is running on as a service on the OS.__
+__3.__ __Enable and verify that Apache is running on as a service on the OS.__
+
 ```
 sudo systemctl enable apache2
 sudo systemctl status apache2
@@ -117,10 +115,11 @@ sudo systemctl enable apache2: Configures Apache to start on boot (so it survive
 
 
 
-If it green and running, then apache2 is correctly installed
+If it is green and running, then Apache2 is correctly installed
+
 ![Apache Status](./img/enable-systemctl.png)
 
-__4.__ __The server is running and can be accessed locally in the ubuntu shell by running the command below:__
+__4.__ __The server is running and can be accessed locally in the Ubuntu shell by running the command below:__
 
 ```
 curl http://localhost:80
@@ -130,15 +129,15 @@ curl http://127.0.0.1:80
 ![Local URL](./img/curl-localhost.png)
 
 __5.__ __Test with the public IP address if the Apache HTTP server can respond to requests from the internet using the url on a browser.__
-```
-http://35.93.146.45:80
 
-```
+`http://35.93.146.45:80`
+
 ![Apache Default Page](./img/apache-browser.png)
-This shows that the web server is correctly installed and it is accessible through the firewall.
+
+This shows that the web server is correctly installed and is accessible through the firewall.
 
 
-__6.__ __Another way to retrieve the public ip address other than check the aws console__
+__6.__ __Another way to retrieve the public IP address, other than checking the AWS console__
 ```
 TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254/latest/meta-data/public-ipv4
@@ -166,13 +165,14 @@ curl -H "X-aws-ec2-metadata-token: $TOKEN" -s http://169.254.169.254/latest/meta
 __1.__ __Install a relational database (RDB)__
 
 MySQL was installed in this project. It is a popular relational database management system used within PHP environments. We use MySQl as a relational database to store and manage data on our website.
-```
-sudo apt install mysql-server
-```
+
+`sudo apt install mysql-server`
+
 ![Install MySQL](./img/mysql-install.png)
+
 When prompted, install was confirmed by typing y and then Enter.
 
-__2.__ __Enable and verify that mysql is running with the commands below__
+__2.__ __Enable and verify that MySQL is running with the commands below__
 ```
 sudo systemctl enable --now mysql
 sudo systemctl status mysql
@@ -183,22 +183,19 @@ NB: sudo systemctl enable --now mysql: --now starts MySQL immediately, and enabl
 ![MySQL Status](./img/systemctl-mysql.png)
 
 __3.__ __Log in to mysql console__
-```
-sudo mysql
-```
+`sudo mysql`
+
 This connects to the MySQL server as the administrative database user __root__ inferred by the use of __sudo__ when running the command.
 
 __4.__ __Set a password for root user using mysql_native_password as default authentication method.__
 
 Here, the user's password was defined as "Admin007$"
-```
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Admin007$';
-```
+
+`ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Admin007$';`
+
 ![User Password](./img/msql-login.png)
 Exit the MySQL shell
-```
-exit
-```
+`exit`
 
 __5.__ __Run an Interactive script to secure MySQL__
 
@@ -216,27 +213,26 @@ Disables root login remotely (optional).
 
 Reloads privilege tables.
 
-```
-sudo mysql_secure_installation
-```
+`sudo mysql_secure_installation`
+
 ![Secured Change](./img/iteractive-change.png)
 
 We use the sudo mysql_secure_installation command to remove insecure default settings and enable protection for the database.
 
-Regardless of whether the VALIDATION PASSWORD PLUGIN is set up, the server will ask to select and confirm a password for MySQL root user.
+Regardless of whether the VALIDATION PASSWORD PLUGIN is set up, the server will ask to select and confirm a password for the MySQL root user.
 
-__6.__ __After changing root user password, log in to MySQL console.__
 
-A command prompt for password was noticed after running the command below.
-```
-sudo mysql -p
-```
+__6.__ __After changing the root user password, log in to the MySQL console.__
+
+A command prompt for the password was noticed after running the command below.
+
+`sudo mysql -p`
+
 ![Password Change](./img/password-change.png)
 
 Exit MySQL shell
-```
-exit
-```
+
+`exit`
 
 ## Step 3 - Install PHP
 
@@ -245,21 +241,19 @@ Apache is installed to serve the content and MySQL is installed to store and man
 PHP is the component of the setup that processes code to display dynamic content to the end user.
 
 The following were installed:
-- php: The scripting language.
+- PHP: The scripting language.
 - php-mysql: PHP module that allows PHP to communicate with MySQL-based databases.
 - libapache2-mod-php: Module to run PHP with Apache and enable Apache to handle PHP files.
 
 
-```
-sudo apt install php libapache2-mod-php php-mysql
-```
+`sudo apt install php libapache2-mod-php php-mysql`
+
 ![Install PHP](./img/install-php.png)
 
 Confirm the PHP version
-```
-php -v
-```
+`php -v`
 ![Confirm php version](./img/confirm-version.png)
+
 
 At this point, the LAMP stack is completely installed and fully operational.
 
@@ -267,30 +261,26 @@ To test the setup with a PHP script, it's best to set up a proper Apache Virtual
 
 ## Step 4 - Create a virtual host for the website using Apache
 
-__1.__ __The default directory serving the apache default page is /var/www/html. Create your document directory next to the default one.__
+__1.__ __The default directory serving the Apache default page is /var/www/html. Create your document directory next to the default one.__
 
-Apache webserver serves a website by way of server blocks inside its /var/www/ directory, and it can support multiple of this server blocks to host other websites.
+Apache web server serves a website by way of server blocks inside its /var/www/ directory, and it can support multiple of these server blocks to host other websites.
 
-Here we create a new directory called ‘projectlamp’ inside the /var/www/ directory using "mkdir" command
-```
-sudo mkdir /var/www/projectlamp
-```
+Here we create a new directory called ‘projectlamp’ inside the /var/www/ directory using the "mkdir" command
+
+`sudo mkdir /var/www/projectlamp`
 
 __Assign the directory ownership with $USER environment variable which references the current system user, i.e we change the permissions of the projectlamp directory to the current user system..__
 
-```
-sudo chown -R $USER:$USER /var/www/projectlamp
-```
+`sudo chown -R $USER:$USER /var/www/projectlamp`
 NB: This command changes ownership to your user (so you can easily modify files).
 
 ![Mkdir Chown](./img/mkdir-chown.png)
 
-__2.__ __ The projectlamp directory represents the directory which will contain files related to our website as it represents a new server block on the apache webserver. In order to spin up this server block we need to configure it by creating a .conf file.
+__2.__ __ The projectlamp directory represents the directory which will contain files related to our website, as it represents a new server block on the Apache web server. In order to spin up this server block, we need to configure it by creating a .conf file.
 
-Create and open a new configuration file in apache’s “sites-available” directory using vim.__
-```
-sudo vim /etc/apache2/sites-available/projectlamp.conf
-```
+Create and open a new configuration file in Apache’s “sites-available” directory using vim.__
+
+`sudo vim /etc/apache2/sites-available/projectlamp.conf`
 
 The following represents the configuration needed to spin up the server block. Copy and paste in the bare-bones configuration below into the editor.:
 ```
@@ -307,9 +297,9 @@ The following represents the configuration needed to spin up the server block. C
 
 
 __3.__ __Show the new file in sites-available__
-```
-sudo ls /etc/apache2/sites-available
-```
+
+`sudo ls /etc/apache2/sites-available`
+
 ```
 Output:
 000-default.conf default-ssl.conf projectlamp.conf
@@ -319,10 +309,9 @@ Output:
 With the VirtualHost configuration, Apache will serve projectlamp using /var/www/projectlamp as its web root directory.
 
 __4.__ __Enable the new virtual host__
-```
-sudo a2ensite projectlamp
 
-```
+`sudo a2ensite projectlamp`
+
 So, we run sudo a2ensite projectlamp to activate the server block.
 NB: Activates your config by creating a symbolic link in sites-enabled.
 
@@ -331,28 +320,24 @@ NB: Activates your config by creating a symbolic link in sites-enabled.
 __5.__ __Disable apache’s default website.__
 
 This is because Apache’s default configuration will overwrite the virtual host if not disabled. This is required if a custom domain is not being used.
-```
-sudo a2dissite 000-default
-```
-We run ‘sudo a2dissite 000-default’ to deactivate the default web server block that comes with apache on default.
-NB: Prevents Apache from using the default config, this is important to avoid conflicts.
+`sudo a2dissite 000-default`
+
+We run ‘sudo a2dissite 000-default’ to deactivate the default web server block that comes with Apache by default.
+NB: Prevents Apache from using the default config, which is important to avoid conflicts.
 
 ![Disable Apache default](./img/a2dissite-default.png)
 
 __6.__ __Ensure the configuration does not contain syntax error__
 
 The command below was used:
-```
-sudo apache2ctl configtest
-```
-![Check syntax error](.img/syntax-confirm.png)
+`sudo apache2ctl configtest`
+
+![Check syntax error](./img/syntax-confirm.png)
 
 __7.__ __Reload apache for changes to take effect.__
-```
-sudo systemctl reload apache2
-```
+`sudo systemctl reload apache2`
 
-__8.__ __The new website is now active but the web root /var/www/projectlamp is still empty. Create an index.html file in this location, so as to test the virtual host work as expected.__
+__8.__ __The new website is now active, but the web root /var/www/projectlamp is still empty. Create an index.html file in this location, so as to test the virtual host works as expected.__
 
 ```
 sudo echo 'Hello LAMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectlamp/index.html
@@ -366,32 +351,27 @@ Or
 
 
 __9.__ __Open the website on a browser using the public IP address.__
-```
-http://35.93.146.45:80
+`http://35.93.146.45:80`
 
-```
 ![URL public IP](./img/apachelocal-after.png)
 
-__10.__ Open the website with public dns name (port is optional)
-```
-http://<public-DNS-name>:80
-```
+__10.__ Open the website with public DNS name (port is optional)
+`http://<public-DNS-name>:80`
 ![URL public DNS](./img/apachedns-after.png)
 
-This file can be left in place as a temporary landing page for the application until an index.php file is set up to replace it. Once this is done, the index.html file should be renamed or removed from the document root as it will take precedence over index.php file by default.
+This file can be left in place as a temporary landing page for the application until an index.php file is set up to replace it. Once this is done, the index.html file should be renamed or removed from the document root as it will take precedence over the index.php file by default.
 
 ## Step 5 - Enable PHP on the website
 
-With the default DirectoryIndex setting on Apache, index.html file will always take precedence over index.php file. This is useful for setting up maintenance page in PHP applications, by creating a temporary index.html file containing an informative message for visitors. The index.html then becomes the landing page for the application. Once maintenance is over, the index.html is renamed or removed from the document root bringing back the regular application page.
+With the default DirectoryIndex setting on Apache, the index.html file will always take precedence over the index.php file. This is useful for setting up a maintenance page in PHP applications, by creating a temporary index.html file containing an informative message for visitors. The index.html then becomes the landing page for the application. Once maintenance is over, the index.html is renamed or removed from the document root, bringing back the regular application page.
 If the behaviour needs to be changed, /etc/apache2/mods-enabled/dir.conf file should be edited and the order in which the index.php file is listed within the DirectoryIndex directive should be changed.
 
-NB: By default, the webserver has a preference for serving an index.html file based on the order of precedence by default in the DirectoryIndex settings of Apache.
+NB: By default, the web server has a preference for serving an index.html file based on the order of precedence by default in the DirectoryIndex settings of Apache.
 To serve an index.php containing the server-side code, you’ll need to edit the /etc/apache2/mods-enabled/dir.conf file and change the order in which the index.php file is listed within the DirectoryIndex.
 
 __1.__ __Open the dir.conf file with vim to change the behaviour__
-```
-sudo vim /etc/apache2/mods-enabled/dir.conf
-```
+
+`sudo vim /etc/apache2/mods-enabled/dir.conf`
 
 ```
 <IfModule mod_dir.c>
@@ -401,33 +381,30 @@ sudo vim /etc/apache2/mods-enabled/dir.conf
   DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
 </IfModule>
 ```
-NB: We want to prioritize index.php over index.html
+NB: We want to prioritise index.php over index.html
 
 ![Change file list order](./img/changevim-php.png)
 
 
 __2.__ __Reload Apache__
 
-Apache is reloaded so the changes takes effect.
-```
-sudo systemctl reload apache2
-```
+Apache is reloaded, so the changes take effect.
+`sudo systemctl reload apache2`
 
-__3.__ __Create a php test script to confirm that Apache is able to handle and process requests for PHP files.__
+__3.__ __Create a PHP test script to confirm that Apache is able to handle and process requests for PHP files.__
 
 A new index.php file was created inside the custom web root folder.
 
-```
-vim /var/www/projectlamp/index.php
-```
+`vim /var/www/projectlamp/index.php`
 
 __Add the text below in the index.php file__
+
 ```
 <?php
 phpinfo();
 ```
 
-NB: phpinfo() shows your PHP environment info in browsers, this is useful for confirming PHP is working correctly.
+NB: phpinfo() shows your PHP environment info in browsers; this is useful for confirming PHP is working correctly.
 
 ![php text](./img/vi-php.png)
 
@@ -438,10 +415,9 @@ __4.__ __Now refresh the page__
 
 This page provides information about the server from the perspective of PHP. It is useful for debugging and to ensure the settings are being applied correctly.
 
-After checking the relevant information about the server through this page, It’s best to remove the file created as it contains sensitive information about the PHP environment and the ubuntu server. It can always be recreated if the information is needed later.
-```
-sudo rm /var/www/projectlamp/index.php
-```
+After checking the relevant information about the server through this page, it’s best to remove the file created as it contains sensitive information about the PHP environment and the Ubuntu server. It can always be recreated if the information is needed later.
+
+`sudo rm /var/www/projectlamp/index.php`
 
 
 __Conclusion:__
